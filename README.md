@@ -14,6 +14,7 @@ Uses a least‑privilege IAM role and logs to CloudWatch.
 Add this tag to any non‑prod EC2 instance you want managed by the scheduler:
 
 Key:   Schedule
+
 Value: office-hours
 
 # How it saves cost
@@ -42,6 +43,7 @@ That’s it—commit and push. CI zips the Lambda, runs terraform init/plan/appl
 Tag your instances
 In the EC2 console, for each dev/test instance you want managed:
 Key:   Schedule
+
 Value: office-hours
 
 
@@ -50,7 +52,9 @@ Value: office-hours
 Go to EventBridge › Rules and check the next scheduled time for:
 
 ec2-scheduler-start-0930IST (approx 09:00 IST)
+
 ec2-scheduler-stop-1930IST  (approx 19:00 IST)
+
 Or trigger a quick test from the Lambda console (invoke handler manually).
 Confirm actions
 
@@ -113,7 +117,9 @@ Add Schedule=office-hours to a test EC2 instance.
 Lambda role is granted:
 
 CloudWatch Logs write
+
 EC2 Describe/Start/Stop
+
 SNS Publish (to the project’s topic)
 
 
@@ -122,7 +128,11 @@ When you’re done testing (to avoid charges):
 
 Via CI: comment out resources in Terraform and push → CI will destroy/modify accordingly (advanced).
 Locally:
-Shellcd terraformterraform destroy -auto-approveShow more lines
+
+cd terraform
+
+terraform destroy -auto-approve
+
 
 Manual check: ensure the SNS topic, Lambda functions, EventBridge rules, and the IAM role/policy created for this project are removed. Untag any instances if you added tags for testing.
 
@@ -138,8 +148,13 @@ Tighten IAM to least privilege for production
 
 # FAQ
 Q: Will this stop critical instances?
+
 A: Only if you tag them. Use tags carefully and start with non‑prod/dev instances.
+
 Q: Can I run it in another region?
+
 A: Yes—set aws_region in Terraform and ensure your test instances are in that region.
+
 Q: What if my hours aren’t IST?
+
 A: Edit the cron (UTC) in EventBridge rules to your preferred schedule.
