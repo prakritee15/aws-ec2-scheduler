@@ -85,7 +85,14 @@ aws-ec2-scheduler/
 
 # Local test (optional)
 If you want to test outside CI:
-Shell# From repo rootcd lambdazip -r ../lambda.zip app.pycd ../terraformterraform initterraform plan -var="sns_email=you@example.com"terraform apply -auto-approveShow more lines
+#From repo root
+cd lambda
+zip -r ../lambda.zip app.py
+cd ../terraform
+terraform init
+terraform plan -var="sns_email=you@example.com"
+terraform apply -auto-approve
+
 After apply:
 
 Add Schedule=office-hours to a test EC2 instance.
