@@ -86,6 +86,8 @@ aws-ec2-scheduler/
 # Local test (optional)
 If you want to test outside CI:
 #From repo root
+
+
 cd lambda
 zip -r ../lambda.zip app.py
 cd ../terraform
