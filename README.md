@@ -89,11 +89,18 @@ If you want to test outside CI:
 
 
 cd lambda
+
 zip -r ../lambda.zip app.py
+
 cd ../terraform
+
 terraform init
+
 terraform plan -var="sns_email=you@example.com"
+
 terraform apply -auto-approve
+
+
 
 After apply:
 
